@@ -1,15 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My First Activity</title>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
 </head>
+
 <body>
 
-    <h1>Hello World,</h1> 
+    <h1>Todo List</h1>
 
-    <h1>I am Ahreda</h1>
-        
-    
+    <input type="text" id="taskInput" placeholder="Add a task">
+
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        function addTask() {
+            const input = document.getElementById("taskInput");
+            const taskText = input.value.trim();
+
+            if (taskText === "") {
+                return;
+            }
+
+            const li = document.createElement("li");
+            li.textContent = taskText;
+
+            document.getElementById("taskList").appendChild(li);
+
+            input.value = "";
+        }
+    </script>
 
 </body>
 </html>
