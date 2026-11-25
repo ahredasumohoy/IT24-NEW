@@ -1,77 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Todo List</title>
 </head>
+
 <body>
+
     <h1>Todo List</h1>
-    <input type="text"
-    id="taskinput"
-    placeholder="add a task"
+
+    <input
+        type="text"
+        id="taskInput"
+        placeholder="Add a task"
     />
-    <button>onclick="addTask()">Add Task</button>
-    <ul id="tasklist">your task go here ...</ul>
+
+    <button onclick="addTask()">Add task</button>
+
+    <ul id="taskList"></ul>
 
     <script>
-function getTaskText(){
-    const input = document.getElementById('taskInput');
-    const text = input.value.trim();
+        function getTaskText() {
+            const input = document.getElementById('taskInput');
+            const text = input.value.trim();
 
-    console.log("The input value is: " + input.value);
-    return text;
-    
-    function addTask(){}
-    const taskText = getTaskText();
-    addTaskItem(tasktext);
-}
-function addTaskItem(taskText){
-    getTaskText();
-    const li = document.createElement('li');
-    const taskSpan = document.createElement('span');
-    taskSpan.textXContent = taskText;
-    li.appendChild(taskSpan);
+            console.log("The input value is: " + input.value);
 
-    document.getElementByID('tasklist').appendchild(li);
-} 
-function createDoneButton(li){
-    const doneBtn = document.createElement("button");
-    doneBtn.textContent = "Done"
+            return text;
+        }
 
-    doneBtn.onclick = () =>{
-        console.log(li);
-        li.classList.add("done");
-        const button = li.querySelectorAll("button");
+        function addTask() {
+            const taskText = getTaskText();
 
-        button.forEach(btn =>{
-            btn.disabled=true;
-    });
+            if (taskText === "") {
+                return;
+            }
 
-        console.log("Task Completed", li.textContent, Date());
-}
-return doneBtn;
-}
-function createEditButton(li,taskSpan){
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    editBtn.style.marginLeft="8px";
-    editBtn.onclick = () => handleEditClick(li);
-    return editBtn;
-}
+            addTaskItem(taskText);
 
-function handleEditClick(li){
-    const currentText = li.firstChild.textContent.trim();
-    const newText = prompt("Edit your task", currentText);
+            document.getElementById('taskInput').value = "";
+        }
 
-    if(newText !==null && newText.trim(li){}
-        li.firstChild.textContent = newText.trim();
-        alert("Updated Task");
+        function addTaskItem(taskText) {
+            const li = document.createElement('li');
 
-    }
+            const taskSpan = document.createElement('span');
+            taskSpan.textContent = taskText;
 
+            li.appendChild(taskSpan);
 
+            const doneButton = createDoneButton(li);
+            li.appendChild(doneButton);
+
+            document.getElementById('taskList').appendChild(li);
+
+            const editButton = createEditButton(li);
+            li.appendChild(editButton);
+
+            const deleteButton = createDeleteButton(li);
+            li.appendChild(deleteButton);
+        }
+
+        function createDoneButton(li) {
+            const doneButton = document.createElement('button');
+
+            doneButton.textContent = 'Done';
+
+            doneButton.onclick = () => {
+                li.classList.add("done");
+
+                const buttons = li.querySelectorAll("button");
+
+                buttons.forEach(button => {
+                    button.disabled = true;
+                });
+
+                console.log(
+                    "Task completed",
+                    li.textContent,
+                    Date.now()
+                );
+            };
+
+            return doneButton;
+        }
+
+        function createEditButton(li) {
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.style.marginLeft = '8px';
+            editButton.onclick = () => handleEditTask(li);
+
+            return editButton;
+        }
+
+        function handleEditTask(li) {
+            const currentText = li.firstChild.textContent.trim();
+            const newText = prompt("Edit your task:", currentText);
+
+            if (newText !== null && newText.trim() !== "") {
+                li.firstChild.textContent = newText.trim();
+                alert("updated task");
+            } else {
+                alert("Task not updated. Please enter a valid task.");
+            }
+        }
+
+        function createDeleteButton(li) {
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.style.marginLeft = '8px';
+            deleteButton.onclick = () => handleDeleteTask(li);
+
+            return deleteButton;
+        }
+
+        function handleDeleteTask(li) {
+            li.remove();
+            alert("Task deleted");
+        }
     </script>
- 
+
 </body>
 </html>
