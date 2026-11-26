@@ -25,9 +25,9 @@
 
     <script>
 
-    const apiKey = "YOUR_OPENWEATHERMAP_API_KEY";
+    const apiKey = "fa5c35d314b816f8db555c2df0bfb612";
 
-    // MANUAL CITY SEARCH
+    
     async function getWeather() {
 
         const city = prompt("Enter a city name");
@@ -50,15 +50,15 @@
 
             const data = await response.json();
 
-            // Get geographical coordinates
+            
             const latitude = data.coord.lat;
             const longitude = data.coord.lon;
 
-            // Display selected location
+            
             document.getElementById("locationResult").innerHTML =
                 `Selected City: ${data.name}`;
 
-            // Pass coordinates to another function
+           
             getWeatherByCoordinates(latitude, longitude);
 
         } catch (error) {
@@ -68,16 +68,47 @@
         }
     }
 
-    // This function receives the coordinates
+    
     async function getWeatherByCoordinates(lat, lon) {
 
         console.log("Latitude:", lat);
         console.log("Longitude:", lon);
 
-        // Your weather and forecast API requests
-        // can be added here.
+
 
     }
+
+    function getGPSLocation() {
+
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+    }
+
+    document.getElementById("locationResult").innerHTML =
+        "Getting your location...";
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            getWeatherByCoordinates(latitude, longitude);
+
+        },
+
+        function(error) {
+
+            document.getElementById("locationResult").innerHTML = "";
+
+            alert("GPS Error: " + error.message);
+
+        }
+
+    );
+}
 
     </script>
 
