@@ -148,31 +148,37 @@
 
             const forecastData = await forecastResponse.json();
 
-            document.getElementById("forecastResult").innerHTML = `
+            const forecastResult =
+                document.getElementById("forecastResult");
 
+            forecastResult.innerHTML = `
                 <h2>5-Day Weather Forecast</h2>
+            `;
 
-                ${forecastData.list
-                    .filter(item => item.dt_txt.includes("12:00:00"))
-                    .map(item => `
+            // Display forecast every 24 hours (12:00 PM)
+            forecastData.list
+                .filter(item => item.dt_txt.includes("12:00:00"))
+                .forEach(item => {
 
-                        <div>
-                            <h3>${item.dt_txt}</h3>
-
-                            <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png">
-
-                            <p>Temperature: ${item.main.temp} °C</p>
-
-                            <p>Weather: ${item.weather[0].description}</p>
-
-                            <p>Humidity: ${item.main.humidity}%</p>
-                        </div>
+                    forecastResult.innerHTML += `
 
                         <hr>
 
-                    `).join("")}
+                        <h3>${item.dt_txt}</h3>
 
-            `;
+                        <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png">
+
+                        <p>Temperature: ${item.main.temp} °C</p>
+
+                        <p>Weather: ${item.weather[0].description}</p>
+
+                        <p>Humidity: ${item.main.humidity}%</p>
+
+                        <p>Wind Speed: ${item.wind.speed} m/s</p>
+
+                    `;
+
+                });
 
         } catch (error) {
 
